@@ -1,3 +1,4 @@
+import { ENV_VARS } from "../config/envConfig.js";
 import warshipsData from "../constants/data.const.js";
 import {
   filterByCrew,
@@ -36,10 +37,12 @@ export function getStarships(req, res) {
     itemsPerPage: limit,
     next:
       page < totalPages
-        ? `http://localhost:5000/api/starships?page=${page + 1}`
+        ? `${ENV_VARS.BASE_API_ENDPOINT}/api/starships?page=${page + 1}`
         : null,
     prev:
-      page > 1 ? `http://localhost:5000/api/starships?page=${page - 1}` : null,
+      page > 1
+        ? `${ENV_VARS.BASE_API_ENDPOINT}/api/starships?page=${page - 1}`
+        : null,
   });
 }
 
