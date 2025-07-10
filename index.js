@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { ENV_VARS } from "./config/envConfig.js";
+import { ENV_VARS, SERVER_ENVIRONMENT } from "./config/envConfig.js";
 import {
   getStarships,
   getStarshipById,
@@ -14,8 +14,18 @@ app.use(express.json());
 
 app.get("/api/starships", getStarships);
 app.get("/api/starships/:id", getStarshipById);
-app.get("/health", (req, res) => res.sendStatus(200));
+app.get("/", (req, res) => res.status(200).json({ message: "OK" }));
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+if (ENV_VARS.SERVER_ENV === SERVER_ENVIRONMENT.PRODUCTION) {
+  setInterval(async () => {
+    try {
+      const response = await fetch(ENV_VARS.BASE_API_ENDPOINT);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }, 30000);
+}
