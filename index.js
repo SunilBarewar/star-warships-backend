@@ -19,13 +19,3 @@ app.get("/", (req, res) => res.status(200).json({ message: "OK" }));
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-if (ENV_VARS.SERVER_ENV === SERVER_ENVIRONMENT.PRODUCTION) {
-  setInterval(async () => {
-    try {
-      const response = await fetch(ENV_VARS.BASE_API_ENDPOINT);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }, 30000);
-}
